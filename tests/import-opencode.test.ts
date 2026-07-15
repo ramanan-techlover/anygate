@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { LocalProvider } from './../src/core/types.js';
 import type { RegistryProvider } from '../src/registry/types.js';
 
-vi.mock('../src/opencode-serve.js', () => ({
+vi.mock('../src/providers/opencode-serve.js', () => ({
   fetchRawOpencodeProviders: vi.fn(),
 }));
 vi.mock('../src/registry/io.js', () => ({
@@ -25,7 +25,7 @@ vi.mock('../src/registry/validate-import-key.js', async importOriginal => {
   };
 });
 
-import { fetchRawOpencodeProviders } from '../src/opencode-serve.js';
+import { fetchRawOpencodeProviders } from '../src/providers/opencode-serve.js';
 import { loadRegistry, saveRegistry } from '../src/registry/io.js';
 import { saveProviderCredential } from './../src/core/env.js';
 import { importFromOpencode } from '../src/registry/import-opencode.js';

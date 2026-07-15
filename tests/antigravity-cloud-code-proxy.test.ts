@@ -3,7 +3,7 @@ import {
   normalizeResponseHeaders,
   decodeBody,
   encodeBody,
-} from '../src/antigravity/cloud-code-proxy.js';
+} from '../src/gateway/antigravity/cloud-code-proxy.js';
 import zlib from 'node:zlib';
 
 describe('cloud-code-proxy body utilities', () => {

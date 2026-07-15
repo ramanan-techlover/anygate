@@ -16,7 +16,7 @@ vi.mock('@clack/prompts', () => ({
   spinner: vi.fn(() => ({ start: vi.fn(), stop: vi.fn() })),
 }));
 
-vi.mock('../src/codex/app-launch.js', () => ({
+vi.mock('../src/agents/codex/app-launch.js', () => ({
   codexAppInstallHint: vi.fn(() => 'Install Codex App'),
   codexAppSupported: vi.fn(() => true),
   launchOrRestartCodexApp: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock('../src/codex/app-launch.js', () => ({
   quitCodexAppGracefully: mocks.quitCodexAppGracefully,
 }));
 
-import { maybeCloseRunningCodexApp } from '../src/codex-app.js';
+import { maybeCloseRunningCodexApp } from '../src/agents/codex/app.js';
 
 describe('maybeCloseRunningCodexApp', () => {
   beforeEach(() => {

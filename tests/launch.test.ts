@@ -3,9 +3,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { findBinaryOnPath } from '../src/binary-lookup.js';
-import { buildClaudeArgs, findClaudeBinary } from '../src/launch.js';
-import { buildGeminiChildEnv, prepareGeminiChildEnv } from '../src/gemini/launch.js';
+import { findBinaryOnPath } from '../src/agents/shared/binary-lookup.js';
+import { buildClaudeArgs, findClaudeBinary } from '../src/agents/shared/launch.js';
+import { buildGeminiChildEnv, prepareGeminiChildEnv } from '../src/agents/gemini/launch.js';
 import { setAppPathOverride } from './../src/core/config.js';
 
 describe('buildClaudeArgs', () => {

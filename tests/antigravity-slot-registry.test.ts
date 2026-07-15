@@ -4,9 +4,9 @@ import {
   getValidatedAgySwitchSlots,
   isReservedAgyHelperSlot,
   validateAgySlotRegistry,
-} from '../src/antigravity/slot-registry.js';
-import type { CatalogFixture } from '../src/antigravity/types.js';
-import catalogFixtureRaw from '../src/antigravity/fixtures/fetchAvailableModels.json' with { type: 'json' };
+} from '../src/gateway/antigravity/slot-registry.js';
+import type { CatalogFixture } from '../src/gateway/antigravity/types.js';
+import catalogFixtureRaw from '../src/gateway/antigravity/fixtures/fixtures/fetchAvailableModels.json' with { type: 'json' };
 
 function cloneFixture(): CatalogFixture {
   return structuredClone(catalogFixtureRaw) as CatalogFixture;

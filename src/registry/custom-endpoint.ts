@@ -1,14 +1,14 @@
 // src/registry/custom-endpoint.ts — add custom OpenAI/Anthropic-compatible providers
 
 import { saveProviderCredential } from '../core/env.js';
-import { deriveBrand } from '../models.js';
-import { resolveContextWindow } from '../context-window.js';
+import { deriveBrand } from '../agents/shared/model-compatibility.js';
+import { resolveContextWindow } from '../agents/shared/context-window.js';
 import { fetchTemplateModels } from './fetch-template-models.js';
 import { loadRegistry, saveRegistry } from './io.js';
 import type { CachedModel, RegistryProvider } from './types.js';
 import { customProviderId, isValidProviderId, slugifyProviderId } from './validate.js';
 import { validateCustomEndpointUrl } from './url-security.js';
-import { makeTraceLogger, getProviderDebugLogPath } from '../trace-log.js';
+import { makeTraceLogger, getProviderDebugLogPath } from '../agents/shared/trace-log.js';
 
 export type CustomEndpointKind = 'openai' | 'anthropic';
 

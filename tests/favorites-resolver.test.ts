@@ -4,8 +4,8 @@ import {
   buildFavoritesList,
   resolveFirstAvailableFavorite,
   type ResolveContext,
-} from '../src/favorites-resolver.js';
-import { shouldHideModel } from '../src/model-compatibility.js';
+} from '../src/agents/shared/favorites-resolver.js';
+import { shouldHideModel } from '../src/agents/shared/model-compatibility.js';
 import type { FavoriteModel, LocalProvider, ModelInfo } from './../src/core/types.js';
 
 const sampleLocalProvider: LocalProvider = {

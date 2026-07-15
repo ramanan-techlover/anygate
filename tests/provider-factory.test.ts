@@ -9,7 +9,7 @@ import {
   modelPrefersResponsesApi,
   shouldUseOpenAiResponsesEndpoint,
   thinkingProviderOptions,
-} from '../src/provider-factory.js';
+} from '../src/gateway/provider-factory.js';
 import { VERTEX_ANTHROPIC_NPM } from './../src/core/constants.js';
 
 describe('isSdkMigratedNpm', () => {
@@ -204,7 +204,7 @@ describe('createLanguageModel', () => {
     const payload = Buffer.from(JSON.stringify({ chatgpt_account_id: 'acct-123' })).toString('base64url');
     const accessToken = `${header}.${payload}.sig`;
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/openai',
       modelId: 'gpt-5.5',
@@ -232,7 +232,7 @@ describe('createLanguageModel', () => {
     });
     vi.doMock('@ai-sdk/google', () => ({ createGoogleGenerativeAI }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/google',
       modelId: 'gemini-3.5-flash',
@@ -249,7 +249,7 @@ describe('createLanguageModel', () => {
     const createAnthropic = vi.fn(() => anthropicFactory);
     vi.doMock('@ai-sdk/anthropic', () => ({ createAnthropic }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/anthropic',
       modelId: 'claude-sonnet-4-6',
@@ -269,7 +269,7 @@ describe('createLanguageModel', () => {
     const createAnthropic = vi.fn(() => anthropicFactory);
     vi.doMock('@ai-sdk/anthropic', () => ({ createAnthropic }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/anthropic',
       modelId: 'claude-sonnet-4-6',
@@ -289,7 +289,7 @@ describe('createLanguageModel', () => {
     const createAnthropic = vi.fn(() => anthropicFactory);
     vi.doMock('@ai-sdk/anthropic', () => ({ createAnthropic }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/anthropic',
       modelId: 'claude-sonnet-4-6',
@@ -319,7 +319,7 @@ describe('createLanguageModel', () => {
     const createOpenAICompatible = vi.fn(() => factory);
     vi.doMock('@ai-sdk/openai-compatible', () => ({ createOpenAICompatible }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/openai-compatible',
       modelId: 'glm-5.2',
@@ -343,7 +343,7 @@ describe('createLanguageModel', () => {
     const createOpenAICompatible = vi.fn(() => factory);
     vi.doMock('@ai-sdk/openai-compatible', () => ({ createOpenAICompatible }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/openai-compatible',
       modelId: 'tencent/hy3:free',
@@ -364,7 +364,7 @@ describe('createLanguageModel', () => {
     const createAnthropic = vi.fn(() => anthropicFactory);
     vi.doMock('@ai-sdk/anthropic', () => ({ createAnthropic }));
 
-    const { createLanguageModel: create } = await import('../src/provider-factory.js');
+    const { createLanguageModel: create } = await import('../src/gateway/provider-factory.js');
     await create({
       npm: '@ai-sdk/anthropic',
       modelId: 'glm-5.2',

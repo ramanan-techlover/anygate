@@ -1,19 +1,19 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import http from 'node:http';
-import { createLanguageModel } from '../src/provider-factory.js';
-import { generateAnthropicResponse } from '../src/sdk-adapter.js';
-import { startProxyCatalog, type ProxyRoute } from '../src/proxy.js';
+import { createLanguageModel } from '../src/gateway/provider-factory.js';
+import { generateAnthropicResponse } from '../src/gateway/sdk-adapter.js';
+import { startProxyCatalog, type ProxyRoute } from '../src/gateway/anthropic-proxy.js';
 
-vi.mock('../src/provider-factory.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/provider-factory.js')>();
+vi.mock('../src/gateway/provider-factory.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/gateway/provider-factory.js')>();
   return {
     ...actual,
     createLanguageModel: vi.fn().mockResolvedValue({}),
   };
 });
 
-vi.mock('../src/sdk-adapter.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/sdk-adapter.js')>();
+vi.mock('../src/gateway/sdk-adapter.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/gateway/sdk-adapter.js')>();
   return {
     ...actual,
     generateAnthropicResponse: vi.fn().mockResolvedValue({

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('../src/proxy.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/proxy.js')>();
+vi.mock('../src/gateway/anthropic-proxy.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/gateway/anthropic-proxy.js')>();
   return {
     ...actual,
     startProxyCatalog: vi.fn().mockResolvedValue({
@@ -20,8 +20,8 @@ vi.mock('../src/registry/import-build.js', () => ({
   oauthAuthRef: vi.fn((id: string) => `keyring:oauth:provider:${id}`),
 }));
 
-import { rewriteGeminiBackendRoutes } from '../src/gemini/backend-routes.js';
-import { startProxyCatalog, type ProxyRoute } from '../src/proxy.js';
+import { rewriteGeminiBackendRoutes } from '../src/agents/gemini/backend-routes.js';
+import { startProxyCatalog, type ProxyRoute } from '../src/gateway/anthropic-proxy.js';
 
 const regularRoute: ProxyRoute = {
   aliasId: 'gpt-5.5',

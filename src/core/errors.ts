@@ -7,7 +7,7 @@
 // real upstream statuses into opaque 502s.
 
 import type { ServerResponse } from 'node:http';
-import { sendJson } from '../http-utils.js';
+import { sendJson } from './http-utils.js';
 
 /** Base class for every error anygate throws with a known HTTP mapping. */
 export class AnygateError extends Error {

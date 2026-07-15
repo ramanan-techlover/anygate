@@ -1,5 +1,5 @@
 ﻿import { describe, it, expect } from 'vitest';
-import { translateRequest, expandTextWithThinking, type CloudCodeGenerateRequest } from '../src/antigravity/request-adapter.js';
+import { translateRequest, expandTextWithThinking, type CloudCodeGenerateRequest } from '../src/gateway/antigravity/request-adapter.js';
 
 describe('antigravity request-adapter', () => {
   it('translates a single user text message', () => {

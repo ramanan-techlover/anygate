@@ -4,8 +4,8 @@ import {
   buildFavoritesAppCatalog,
   codexCliFavoritesSlug,
   defaultReasoningEffortForFavorite,
-} from '../src/codex/favorites-catalog.js';
-import type { ResolvedFavorite } from '../src/favorites-resolver.js';
+} from '../src/agents/codex/favorites-catalog.js';
+import type { ResolvedFavorite } from '../src/agents/shared/favorites-resolver.js';
 import type { LocalProviderModel } from './../src/core/types.js';
 
 const anthropicModel: LocalProviderModel = {

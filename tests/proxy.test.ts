@@ -2,8 +2,8 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
-import { aliasModelId, startProxyCatalog, type ProxyRoute } from '../src/proxy.js';
-import { getProxyDebugLogPath } from '../src/trace-log.js';
+import { aliasModelId, startProxyCatalog, type ProxyRoute } from '../src/gateway/anthropic-proxy.js';
+import { getProxyDebugLogPath } from '../src/agents/shared/trace-log.js';
 
 /** POST JSON to a local proxy via node:http (avoids vi.stubGlobal('fetch') interception). */
 function postToProxy(port: number, token: string, body: unknown): Promise<{ status: number; body: string }> {
@@ -276,7 +276,8 @@ describe('anthropic passthrough debug logging', () => {
     handle.close();
     const [, init] = vi.mocked(fetch).mock.calls[0]!;
     const body = JSON.parse(String(init?.body)) as { system?: Array<{ type: string; text: string }> };
-    expect(body.system?.[0]?.text).toBe('x-anthropic-billing-header: cc_version=2.1.195.0; cc_entrypoint=cli;');
+    const entrypoint = process.env.CLAUDE_CODE_ENTRYPOINT ?? 'cli';
+    expect(body.system?.[0]?.text).toBe(`x-anthropic-billing-header: cc_version=2.1.195.0; cc_entrypoint=${entrypoint};`);
     expect(body.system?.[1]?.text).toBe('You are helpful.');
   });
 });

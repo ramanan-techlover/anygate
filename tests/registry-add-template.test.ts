@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { addProviderFromTemplate } from '../src/registry/add-template.js';
 import * as env from './../src/core/env.js';
-import * as providerFactory from '../src/provider-factory.js';
+import * as providerFactory from '../src/gateway/provider-factory.js';
 import * as fetchTemplate from '../src/registry/fetch-template-models.js';
 import * as io from '../src/registry/io.js';
 import * as pricing from '../src/registry/pricing.js';
-import type { ProviderTemplate } from '../src/provider-templates.js';
+import type { ProviderTemplate } from '../src/providers/provider-templates.js';
 import type { ProviderRegistry } from '../src/registry/types.js';
 
 vi.mock('../src/core/env.js', () => ({ saveProviderCredential: vi.fn() }));
-vi.mock('../src/provider-factory.js', () => ({ isSdkMigratedNpm: vi.fn() }));
+vi.mock('../src/gateway/provider-factory.js', () => ({ isSdkMigratedNpm: vi.fn() }));
 vi.mock('../src/registry/fetch-template-models.js', () => ({ fetchTemplateModels: vi.fn() }));
 vi.mock('../src/registry/io.js', () => ({ loadRegistry: vi.fn(), saveRegistry: vi.fn() }));
 vi.mock('../src/registry/pricing.js', () => ({

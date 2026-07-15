@@ -1,5 +1,5 @@
 ﻿import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { prepareIdeProfile, readIdeSettings } from '../src/antigravity/ide-profile.js';
+import { prepareIdeProfile, readIdeSettings } from '../src/gateway/antigravity/ide-profile.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';

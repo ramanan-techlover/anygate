@@ -20,21 +20,21 @@ import {
   setServerMaskGatewayIds,
 } from '../core/config.js';
 import type { FavoriteModel } from '../core/types.js';
-import { startServer, type ServerHandle } from '../server/router.js';
+import { startServer, type ServerHandle } from '../gateway/router.ts';
 import {
   buildDedupedModelRows,
   createGatewayModelCatalog,
   gatewayProviderLabel,
   type GatewayModelOptions,
   type ServerModelInfo,
-} from '../server/models.js';
+} from '../gateway/models.js';
 import {
   filterServerModelsByFavorites,
   filterServerModelsByFreeStatus,
   filterServerModelsByProviders,
   summarizeServerProviders,
-} from '../server/catalog-filter.js';
-import { getLocalIps, loadServerModels, resolveServerUpstreamApiKey } from '../server/index.js';
+} from '../gateway/catalog-filter.js';
+import { getLocalIps, loadServerModels, resolveServerUpstreamApiKey } from '../gateway/server.ts';
 
 export type ServerListenMode = 'local' | 'network';
 

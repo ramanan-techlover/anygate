@@ -8,7 +8,7 @@ import {
   gatewayAliasId,
   upstreamModelId,
   type ServerModelInfo,
-} from '../src/server/models.js';
+} from '../src/gateway/models.js';
 
 const models: ServerModelInfo[] = [
   {

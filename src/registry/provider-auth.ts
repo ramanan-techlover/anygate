@@ -1,6 +1,6 @@
 // provider-auth.ts — anygate providers auth (native device-code + OpenCode broker)
 
-import { printOAuthStepsPanel, confirmSubscriptionOAuthRisk } from '../ui.js';
+import { printOAuthStepsPanel, confirmSubscriptionOAuthRisk } from '../agents/shared/ui.ts';
 import pc from 'picocolors';
 import * as p from '@clack/prompts';
 import open from 'open';
@@ -19,9 +19,9 @@ import {
   generateCliUserID,
 } from '../oauth/claude-code.js';
 import { runAntigravityOAuthFlow } from '../oauth/antigravity-oauth.js';
-import { getTemplateById } from '../provider-templates.js';
-import { fetchRawOpencodeProviders } from '../opencode-serve.js';
-import { findOpencodeBinary } from '../opencode-serve.js';
+import { getTemplateById } from '../providers/provider-templates.ts';
+import { fetchRawOpencodeProviders } from '../providers/opencode-serve.ts';
+import { findOpencodeBinary } from '../providers/opencode-serve.ts';
 import { runOpencodeAuthBroker } from './auth-broker.js';
 import { localProviderToRegistry } from './convert.js';
 import { buildImportProviderList, oauthAuthRef, toOAuthRegistryId } from './import-build.js';

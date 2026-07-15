@@ -3,7 +3,7 @@ import {
   claudeCodeClientModelId,
   routeLookupIds,
   stripOneMContextSuffix,
-} from '../src/context-model-id.js';
+} from '../src/agents/shared/context-model-id.js';
 
 describe('claudeCodeClientModelId', () => {
   it('appends [1m] when context exceeds 200K', () => {

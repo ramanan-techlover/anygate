@@ -16,7 +16,7 @@ import {
   setServerFreeModelsOnly,
   setServerListenMode,
 } from './../src/core/config.js';
-import { getAppHome, getConfigPath } from '../src/paths.js';
+import { getAppHome, getConfigPath } from '../src/core/paths.js';
 
 let tempHome: string;
 let previousHome: string | undefined;

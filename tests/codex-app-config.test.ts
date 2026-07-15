@@ -8,9 +8,9 @@ import {
   isAppManagedConfig,
   restoreConfigFromState,
   previewAppConfigToml,
-} from '../src/codex/app-config.js';
-import { CODEX_APP_PROVIDER_ID } from '../src/codex/app-profile.js';
-import type { CodexAppConfigSpec } from '../src/codex/app-profile.js';
+} from '../src/agents/codex/app-config.js';
+import { CODEX_APP_PROVIDER_ID } from '../src/agents/codex/app-profile.js';
+import type { CodexAppConfigSpec } from '../src/agents/codex/app-profile.js';
 
 describe('app-config', () => {
   let home: string;

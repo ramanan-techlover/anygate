@@ -4,7 +4,7 @@ import {
   translateResponsesRequest,
   translateResponsesTools,
   responsesErrorBody,
-} from '../src/codex-responses-adapter.js';
+} from '../src/agents/codex/responses-adapter.js';
 
 describe('translateResponsesRequest', () => {
   it('maps string input to user message', () => {
@@ -218,7 +218,7 @@ describe('responsesErrorBody', () => {
 
 describe('writeResponsesStream', () => {
   it('emits full text SSE sequence', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -241,7 +241,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('emits function call SSE sequence with arguments.done', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -261,7 +261,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('reports periodic progress during a long-running stream, so a stuck/looping generation is visible before it finishes', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     vi.useFakeTimers();
     vi.setSystemTime(0);
     try {
@@ -292,7 +292,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('detects a stuck text-repetition loop and stops the generation instead of streaming forever', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     vi.useFakeTimers();
     vi.setSystemTime(0);
     try {
@@ -330,7 +330,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('does not flag naturally short, non-repeating output as a loop', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -352,7 +352,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('recovers leaked DeepSeek DSML tool-call markup into real function_call output', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -388,7 +388,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('keeps streaming Responses call_id native-safe when provider signatures exist', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -413,7 +413,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('emits each parallel function call instead of overwriting the first one', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -437,7 +437,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('emits reasoning output item for tool-loop round-trip', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -457,7 +457,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('reports stream errors through onDone so they reach the trace log', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
     const summaries: any[] = [];
@@ -474,7 +474,7 @@ describe('writeResponsesStream', () => {
   });
 
   it('emits a failed response.completed when the stream is aborted (idle timeout)', async () => {
-    const { writeResponsesStream } = await import('../src/codex-responses-adapter.js');
+    const { writeResponsesStream } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -495,7 +495,7 @@ describe('writeResponsesStream', () => {
 
 describe('streamResponsesResponse idle timeout', () => {
   it('aborts a stream whose upstream never sends a single part', async () => {
-    const { streamResponsesResponse } = await import('../src/codex-responses-adapter.js');
+    const { streamResponsesResponse } = await import('../src/agents/codex/responses-adapter.js');
     const chunks: string[] = [];
     const write = (c: string) => chunks.push(c);
 
@@ -557,13 +557,13 @@ describe('generateResponsesResponse', () => {
       jsonSchema: vi.fn((schema: unknown) => schema),
     }));
 
-    const { generateResponsesResponse } = await import('../src/codex-responses-adapter.js');
+    const { generateResponsesResponse } = await import('../src/agents/codex/responses-adapter.js');
     const body = await generateResponsesResponse({} as never, { messages: [] }, 'gemini-2.5-pro');
     const toolCall = (body.output as any[]).find(item => item.type === 'function_call');
     expect(toolCall.call_id).toBe('call_1');
     expect(toolCall.call_id.length).toBeLessThanOrEqual(64);
 
-    const { translateResponsesInput } = await import('../src/codex-responses-adapter.js');
+    const { translateResponsesInput } = await import('../src/agents/codex/responses-adapter.js');
     const params = translateResponsesInput([
       { type: 'function_call', id: 'fc_1', call_id: 'call_1', name: 'Read', arguments: '{}' },
     ], undefined, '@ai-sdk/google');

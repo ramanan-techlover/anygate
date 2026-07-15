@@ -1,48 +1,48 @@
 // src/cli.ts
 import pc from 'picocolors';
-import { relayIntro, relayOutro, providerSelectOption, fmtModel, fmtEnabledStar, formatModelLabel } from './ui.js';
+import { relayIntro, relayOutro, providerSelectOption, fmtModel, fmtEnabledStar, formatModelLabel } from './agents/shared/ui.js';
 import * as p from '@clack/prompts';
 import { realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { findClaudeBinary, launchClaude } from './launch.js';
+import { findClaudeBinary, launchClaude } from './agents/shared/launch.js';
 import { resolveApiKey, detectConflicts, buildChildEnv, readGlobalOpencodeCredential } from './core/env.js';
-import { claudeCodeClientModelId } from './context-model-id.js';
-import { resolveOrCollectApiKey } from './key-setup.js';
-import { needsFirstRunSetup, runFirstRunWizard } from './first-run.js';
+import { claudeCodeClientModelId } from './agents/shared/context-model-id.js';
+import { resolveOrCollectApiKey } from './agents/shared/key-setup.js';
+import { needsFirstRunSetup, runFirstRunWizard } from './agents/shared/first-run.js';
 import { MAX_MODEL_CATALOG } from './core/constants.js';
-import { startProxy, startProxyCatalog } from './proxy.js';
-import type { ProxyHandle, ProxyRoute } from './proxy.js';
+import { startProxy, startProxyCatalog } from './gateway/anthropic-proxy.js';
+import type { ProxyHandle, ProxyRoute } from './gateway/anthropic-proxy.js';
 import {
   buildCatalogRoutes,
   makeRouteResolver,
-} from './catalog.js';
-import { runServerCommand } from './server/index.js';
+} from './providers/provider-catalog.js';
+import { runServerCommand } from './gateway/server.js';
 import type { ModelFormat } from './core/types.js';
 import { loadPreferences, savePreferences, recordLaunchSelection } from './core/config.js';
-import { pickLocalModel, browseAllModels } from './prompts.js';
-import { fetchProviderCatalog, providersForPicker } from './provider-catalog.js';
+import { pickLocalModel, browseAllModels } from './agents/shared/prompts.js';
+import { fetchProviderCatalog, providersForPicker } from './providers/provider-catalog.js';
 import { resolveLocalProviderApiKey } from './core/credentials.js';
 import { BACKENDS, VERSION } from './core/constants.js';
-import { checkForUpdates, formatUpdateNotification } from './update-check.js';
+import { checkForUpdates, formatUpdateNotification } from './agents/shared/update-check.js';
 import type { ParsedArgs, ModelInfo, FavoriteModel, LocalProvider, LocalProviderModel } from './core/types.js';
-import { addFavorite, removeFavorite, isFavorite } from './favorites.js';
+import { addFavorite, removeFavorite, isFavorite } from './agents/claude/favorites.js';
 import {
   browseByProviderChoice,
   buildGlobalFavoriteIndex,
   pickGlobalFavoriteModel,
-} from './favorites-picker.js';
-import { favoriteProviderDisplayName } from './favorite-provider-display.js';
-import { resolveFirstAvailableFavorite } from './favorites-resolver.js';
-import { runProvidersCommand, providersHelpText } from './providers-command.js';
-import { runCodexCommand, codexHelpText } from './codex.js';
-import { runGeminiCommand, geminiHelpText } from './gemini.js';
-import { runAgyCommand, runAntigravityAppCommand, runAntigravityIdeCommand } from './antigravity.js';
-import { runCodexAppCommand } from './codex-app.js';
-import { runClaudeAppCommand } from './claude-app.js';
-import { prepareClaudeTraceLog, printTraceLog } from './trace-log.js';
+} from './agents/claude/favorites-picker.js';
+import { favoriteProviderDisplayName } from './agents/claude/favorite-provider-display.js';
+import { resolveFirstAvailableFavorite } from './agents/shared/favorites-resolver.js';
+import { runProvidersCommand, providersHelpText } from './providers/command.js';
+import { runCodexCommand, codexHelpText } from './agents/codex/cli.js';
+import { runGeminiCommand, geminiHelpText } from './agents/gemini/cli.js';
+import { runAgyCommand, runAntigravityAppCommand, runAntigravityIdeCommand } from './agents/gemini/antigravity.js';
+import { runCodexAppCommand } from './agents/codex/app.js';
+import { runClaudeAppCommand } from './agents/claude/desktop.js';
+import { prepareClaudeTraceLog, printTraceLog } from './agents/shared/trace-log.js';
 import { ANTIGRAVITY_BASE_URLS } from './oauth/antigravity-oauth.js';
-import { providersForTarget } from './target-compatibility.js';
+import { providersForTarget } from './agents/shared/target-compatibility.js';
 import { refreshModelsDevCacheAsync } from './registry/models-dev.js';
 import { setAgentStdoutMode, isAgentStdoutMode } from './core/agent-io.js';
 import {
@@ -50,8 +50,8 @@ import {
   normalizeClaudeAgentArgs,
   planLaunchWizard,
   wantsCleanAgentStdout,
-} from './launch-target.js';
-import { generateAiDoc, installAiDoc, printAiInstallResult } from './ai-doc.js';
+} from './agents/shared/launch-target.js';
+import { generateAiDoc, installAiDoc, printAiInstallResult } from './agents/shared/ai-doc.js';
 const STARTER_CLAUDE_FLAGS = new Set(['--dry-run', '--setup', '--trace', '--help', '-h', '--version', '-v']);
 const RELAY_LAUNCH_FLAGS = new Set(['--provider', '--model']);
 
@@ -1494,7 +1494,7 @@ export async function main(args: string[] = process.argv.slice(2)): Promise<numb
       console.log('Usage: anygate ui [--trace]\n\nOpen the settings UI in your browser.');
       return 0;
     }
-    const { runUiCommand } = await import('./ui-command.js');
+    const { runUiCommand } = await import('./agents/claude/ui-command.js');
     return runUiCommand({ trace: parsed.trace });
   }
 

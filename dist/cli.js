@@ -18,6 +18,7 @@ import {
   buildAntigravityChildEnv,
   buildAppCatalogFile,
   buildCatalogFile,
+  buildCatalogRoutes,
   buildChildEnv,
   buildClaudeCodeBillingSystemLine,
   buildCodexAppRootConfig,
@@ -77,7 +78,6 @@ import {
   isFreeStatus,
   isLikelyPlaceholderKey,
   isOAuthImportProvider,
-  isSdkMigratedNpm,
   isSecretServiceAvailable,
   isValidProviderId,
   launchClaude,
@@ -91,6 +91,7 @@ import {
   logActiveModel,
   logConnected,
   logProxy,
+  makeRouteResolver,
   makeTraceLogger,
   maxToolsForNpm,
   migrateGlobalOpencodeCredential,
@@ -163,15 +164,14 @@ import {
   validateCustomEndpointUrl,
   writeSecureLogLine,
   zenRegistryStub
-} from "./chunk-NBCBHKA2.js";
+} from "./chunk-TLFZPC6W.js";
 import {
   filterTemplates,
   getTemplateById,
-  init_provider_templates,
   listAddableTemplates,
   listSupportedTemplates,
   listVisibleOAuthTemplates
-} from "./chunk-SZIOBBTH.js";
+} from "./chunk-VKROC37K.js";
 
 // src/cli.ts
 import pc12 from "picocolors";
@@ -179,7 +179,7 @@ import * as p14 from "@clack/prompts";
 import { realpathSync } from "fs";
 import { fileURLToPath } from "url";
 
-// src/first-run.ts
+// src/agents/shared/first-run.ts
 import pc from "picocolors";
 import * as p2 from "@clack/prompts";
 
@@ -390,7 +390,7 @@ async function importFromOpencode(options = {}) {
   };
 }
 
-// src/key-setup.ts
+// src/agents/shared/key-setup.ts
 import * as p from "@clack/prompts";
 import { appendFileSync, readFileSync, existsSync } from "fs";
 import { homedir } from "os";
@@ -560,7 +560,7 @@ export OPENCODE_API_KEY='${escapedKey}'
   return trimmedKey;
 }
 
-// src/first-run.ts
+// src/agents/shared/first-run.ts
 async function needsFirstRunSetup() {
   const registry = loadRegistry();
   if (registry.providers.length > 0) return false;
@@ -649,59 +649,11 @@ async function runFirstRunWizard(trace = false) {
   return "continue";
 }
 
-// src/catalog.ts
-function localModelToRoute(lp, model) {
-  if (model.modelFormat === "anthropic" && !model.baseUrl) return null;
-  if (model.modelFormat === "openai" && !isSdkMigratedNpm(model.npm) && !model.completionsUrl) return null;
-  const upstreamUrl = model.modelFormat === "cloud-code" ? model.baseUrl ?? ANTIGRAVITY_BASE_URLS[0] : model.modelFormat === "anthropic" ? model.baseUrl : model.completionsUrl;
-  return {
-    aliasId: claudeCodeClientModelId(aliasModelId(model.id, lp.id), model.contextWindow),
-    realModelId: model.upstreamModelId,
-    displayName: `${model.name || model.id} (${lp.name})`,
-    upstreamUrl: upstreamUrl ?? "",
-    apiKey: lp.apiKey,
-    modelFormat: model.modelFormat,
-    contextWindow: model.contextWindow,
-    npm: model.npm,
-    baseURL: model.apiBaseUrl,
-    providerId: lp.id,
-    authType: lp.authType,
-    oauthAccountId: lp.oauthAccountId,
-    providerData: lp.providerData,
-    headers: lp.headers,
-    supportedParameters: model.supportedParameters,
-    reasoning: model.reasoning,
-    interleavedReasoningField: model.interleavedReasoningField,
-    useResponsesLite: model.useResponsesLite,
-    preferWebSockets: model.preferWebSockets
-  };
-}
-function makeRouteResolver(localProviders) {
-  return (providerId, modelId) => {
-    const provider = localProviders?.find((lp) => lp.id === providerId);
-    const model = provider?.models.find((m) => m.id === modelId);
-    return provider && model ? localModelToRoute(provider, model) ?? void 0 : void 0;
-  };
-}
-function buildCatalogRoutes(startingRoute, favorites, resolveRoute, max = MAX_MODEL_CATALOG) {
-  const droppedFavorites = [];
-  const tail = favorites.map((fav) => {
-    const route = resolveRoute(fav.providerId, fav.modelId);
-    if (!route) droppedFavorites.push(fav);
-    return route;
-  }).filter((route) => route !== void 0);
-  const routes = [
-    startingRoute,
-    ...tail.filter((route) => route.aliasId !== startingRoute.aliasId)
-  ].slice(0, max);
-  return { routes, droppedFavorites };
-}
-
-// src/prompts.ts
+// src/agents/shared/prompts.ts
 import * as p3 from "@clack/prompts";
 import pc2 from "picocolors";
 
-// src/model-search.ts
+// src/agents/shared/model-search.ts
 function normalizeModelSearchText(value) {
   return value.toLowerCase().replace(/([a-z])([0-9])/g, "$1 $2").replace(/([0-9])([a-z])/g, "$1 $2").replace(/[\s\-._/:]+/g, " ").trim();
 }
@@ -733,7 +685,7 @@ function scoreModelSearch(query, fields) {
   }, 0), 0);
 }
 
-// src/prompts.ts
+// src/agents/shared/prompts.ts
 var BROWSE_ALL = "__browse_all__";
 var MAX_RECENT = 3;
 var MODEL_SEARCH_THRESHOLD = 25;
@@ -995,7 +947,6 @@ async function pickLocalModel(provider, conflicts, prefs) {
 }
 
 // src/core/credentials.ts
-init_provider_templates();
 async function resolveLocalProviderApiKey(provider) {
   const direct = provider.apiKey?.trim();
   if (direct) return direct;
@@ -1009,7 +960,7 @@ async function resolveLocalProviderApiKey(provider) {
   return resolveProviderCredential(provider.id, authRef);
 }
 
-// src/favorites.ts
+// src/agents/claude/favorites.ts
 function isFavorite(list, fav) {
   return list.some((f) => f.providerId === fav.providerId && f.modelId === fav.modelId);
 }
@@ -1022,7 +973,7 @@ function removeFavorite(list, fav) {
   return list.filter((f) => !(f.providerId === fav.providerId && f.modelId === fav.modelId));
 }
 
-// src/favorites-picker.ts
+// src/agents/claude/favorites-picker.ts
 import * as p4 from "@clack/prompts";
 import pc3 from "picocolors";
 var ADD_BY_PROVIDER = "__browse_by_provider__";
@@ -1129,10 +1080,9 @@ async function pickGlobalFavoriteModel(providers, favorites, opts) {
   }
 }
 
-// src/providers-command.ts
+// src/providers/command.ts
 import pc4 from "picocolors";
 import * as p5 from "@clack/prompts";
-init_provider_templates();
 function parseProvidersArgs(args) {
   if (args.length === 0) return { subcommand: "hub", showHelp: false };
   const [first, ...rest] = args;
@@ -1861,11 +1811,11 @@ async function runProvidersCommand(args) {
   return runProvidersHub();
 }
 
-// src/codex.ts
+// src/agents/codex/cli.ts
 import pc7 from "picocolors";
 import * as p8 from "@clack/prompts";
 
-// src/codex-proxy.ts
+// src/agents/codex/proxy.ts
 import { createHash } from "crypto";
 import { createServer } from "http";
 
@@ -1916,7 +1866,7 @@ function applyClaudeCodeOAuthIdentity(input, sdkParams) {
   return sdkParams;
 }
 
-// src/codex-responses-adapter.ts
+// src/agents/codex/responses-adapter.ts
 import { streamText, generateText, tool, jsonSchema } from "ai";
 function messageText(content) {
   if (typeof content === "string") return content;
@@ -2674,7 +2624,7 @@ function responsesRateLimitBody(modelId, message) {
   };
 }
 
-// src/codex-proxy.ts
+// src/agents/codex/proxy.ts
 function estimateCodexRequestChars(params) {
   let chars = (params.system ?? "").length;
   for (const msg of params.messages) {
@@ -3272,10 +3222,10 @@ data: ${JSON.stringify({ error: { message: `Unknown model: ${modelId}` } })}
   });
 }
 
-// src/codex/profile.ts
+// src/agents/codex/profile.ts
 import { join as join2 } from "path";
 
-// src/codex/routing.ts
+// src/agents/codex/routing.ts
 function codexCompatibleProviders(providers, agent = "codex") {
   return providersForTarget(providers, agent);
 }
@@ -3345,7 +3295,7 @@ function codexProviderEnvKey(providerId) {
   return known[providerId] ?? `${providerId.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_API_KEY`;
 }
 
-// src/codex/session.ts
+// src/agents/codex/session.ts
 import {
   copyFileSync,
   existsSync as existsSync2,
@@ -3485,7 +3435,7 @@ function checkSessionLock(isTty, env = process.env) {
   return { ok: true };
 }
 
-// src/codex/profile.ts
+// src/agents/codex/profile.ts
 var CODEX_LAUNCH_SANDBOX = "danger-full-access";
 function profileReasoningLine(effort) {
   return effort ? `model_reasoning_effort = ${tomlString(effort)}
@@ -3546,7 +3496,7 @@ function profileName() {
   return CODEX_PROFILE_NAME;
 }
 
-// src/codex/launch.ts
+// src/agents/codex/launch.ts
 import { execFileSync, execSync, spawn } from "child_process";
 import { existsSync as existsSync3 } from "fs";
 import { homedir as homedir3 } from "os";
@@ -3662,7 +3612,7 @@ function launchCodex(modelId, env, extraArgs) {
   });
 }
 
-// src/codex/prompts.ts
+// src/agents/codex/prompts.ts
 import pc5 from "picocolors";
 import * as p6 from "@clack/prompts";
 async function pickCodexProvider(providers, prefs, hasFavorites = false, initialProviderId) {
@@ -3760,7 +3710,7 @@ function rejectManagedFlags(codexArgs) {
   return out;
 }
 
-// src/codex/ui.ts
+// src/agents/codex/ui.ts
 import pc6 from "picocolors";
 function codexAppIntro() {
   relayIntro("Codex App");
@@ -3797,7 +3747,7 @@ function codexCliOutro(providerName, modelLabel, modelId) {
   );
 }
 
-// src/codex/favorites-catalog.ts
+// src/agents/codex/favorites-catalog.ts
 function codexCliFavoritesSlug(providerId, modelId) {
   return `${providerId}__${modelId}`;
 }
@@ -3847,10 +3797,10 @@ function buildFavoritesAppCatalog(resolved) {
   return { models };
 }
 
-// src/codex/favorites-launch.ts
+// src/agents/codex/favorites-launch.ts
 import * as p7 from "@clack/prompts";
 
-// src/favorites-resolver.ts
+// src/agents/shared/favorites-resolver.ts
 async function resolveFavorite(fav, ctx) {
   if (ctx.findLocalModel) {
     const found = ctx.findLocalModel(fav.providerId, fav.modelId);
@@ -3901,7 +3851,7 @@ async function buildFavoritesList(starting, favorites, ctx, max = 20, options = 
   return { resolved: out, droppedFavorites, capacitySkippedFavorites };
 }
 
-// src/codex/favorites-launch.ts
+// src/agents/codex/favorites-launch.ts
 var identityProvider = (provider) => provider;
 async function pickFavoriteStartingModel(compatible, favorites, agent, productLabel, wrapProvider = identityProvider) {
   const favoriteProviders = compatible.map(wrapProvider);
@@ -4008,7 +3958,7 @@ async function resolveCodexFavorites(activeProvider, selectedModel, compatible, 
   };
 }
 
-// src/cloud-code-backend.ts
+// src/agents/shared/cloud-code-backend.ts
 function needsCloudCodeBackend(model, authType) {
   return model.modelFormat === "cloud-code" || model.modelFormat === "anthropic" && authType === "oauth";
 }
@@ -4080,7 +4030,7 @@ function isAgentStdoutMode() {
   return agentStdoutMode;
 }
 
-// src/launch-target.ts
+// src/agents/shared/launch-target.ts
 function parseModelSlug(modelRef) {
   const idx = modelRef.indexOf("__");
   if (idx > 0) {
@@ -4236,7 +4186,7 @@ function isAntigravityNonInteractive(args) {
   return false;
 }
 
-// src/codex.ts
+// src/agents/codex/cli.ts
 function codexHelpText() {
   return `${pc7.bold("anygate codex")} \u2014 launch OpenAI Codex CLI with your registry providers
 
@@ -4843,11 +4793,11 @@ Error: ${launchPlan.error}
   }
 }
 
-// src/gemini.ts
+// src/agents/gemini/cli.ts
 import pc8 from "picocolors";
 import * as p10 from "@clack/prompts";
 
-// src/gemini/launch.ts
+// src/agents/gemini/launch.ts
 import { spawn as spawn2 } from "child_process";
 import { existsSync as existsSync4, mkdirSync as mkdirSync2, mkdtempSync, rmSync as rmSync2, writeFileSync as writeFileSync2 } from "fs";
 import { homedir as homedir4, tmpdir } from "os";
@@ -4933,7 +4883,7 @@ function launchGemini(geminiPath, modelId, env, extraArgs) {
   });
 }
 
-// src/gemini/prompts.ts
+// src/agents/gemini/prompts.ts
 import * as p9 from "@clack/prompts";
 async function pickGeminiProvider(providers, prefs, hasFavorites = false, initialProviderId) {
   if (providers.length === 0 && !hasFavorites) return null;
@@ -5060,7 +5010,7 @@ function rejectGeminiManagedFlags(geminiArgs) {
   return out;
 }
 
-// src/gemini-proxy.ts
+// src/agents/gemini/proxy.ts
 import { createServer as createServer2 } from "http";
 import { randomUUID } from "crypto";
 import { streamText as streamText2, generateText as generateText2, tool as tool2, jsonSchema as jsonSchema2 } from "ai";
@@ -5646,7 +5596,7 @@ function writeGeminiStreamText(res, text4, modelVersion) {
 `);
 }
 
-// src/gemini/backend-routes.ts
+// src/agents/gemini/backend-routes.ts
 function routeToModel(route) {
   return {
     id: route.realModelId,
@@ -5712,7 +5662,7 @@ async function rewriteGeminiBackendRoutes(routes, launchModelId, trace) {
   };
 }
 
-// src/gemini.ts
+// src/agents/gemini/cli.ts
 function geminiHelpText() {
   return `${pc8.bold("anygate gemini")} v${VERSION}
 Launch Google Gemini CLI with OpenCode Zen / Go or local registry providers.
@@ -5978,16 +5928,16 @@ Error: ${launchPlan.error}
   return exitCode;
 }
 
-// src/antigravity.ts
+// src/agents/gemini/antigravity.ts
 import pc9 from "picocolors";
 import * as p11 from "@clack/prompts";
 import { appendFileSync as appendFileSync2 } from "fs";
 
-// src/antigravity/cloud-code-gateway.ts
+// src/gateway/antigravity/cloud-code-gateway.ts
 import http from "http";
 import { streamText as streamText3, generateText as generateText3 } from "ai";
 
-// src/antigravity/response-adapter.ts
+// src/gateway/antigravity/response-adapter.ts
 function normalizeFunctionCallArgs(args) {
   const out = {};
   for (const [key, value] of Object.entries(args)) {
@@ -6054,7 +6004,7 @@ function formatCloudCodeChunk(opts) {
   };
 }
 
-// src/antigravity/slot-registry.ts
+// src/gateway/antigravity/slot-registry.ts
 var AGY_SLOT_VALIDATION_SOURCE = "AGY CLI 1.0.10 / Antigravity IDE 2.1.1 fixture capture 2026-06-23";
 var AGY_NATIVE_SLOT_REGISTRY = [
   {
@@ -6298,7 +6248,7 @@ function evaluateAgySwitchCompatibility(opts) {
   };
 }
 
-// src/antigravity/catalog.ts
+// src/gateway/antigravity/catalog.ts
 var RELAY_CASCADE_PLAN_MODEL = "MODEL_PLACEHOLDER_M132";
 var RELAY_AGENT_PLACEHOLDER = "MODEL_PLACEHOLDER_M20";
 var RELAY_CASCADE_CHECKPOINT_MODEL = "MODEL_PLACEHOLDER_M50";
@@ -6703,7 +6653,7 @@ function buildListExperimentsResponse() {
   };
 }
 
-// src/antigravity/fixtures/loadCodeAssist.json
+// src/gateway/antigravity/fixtures/fixtures/loadCodeAssist.json
 var loadCodeAssist_default = {
   currentTier: {
     id: "free-tier",
@@ -6749,7 +6699,7 @@ var loadCodeAssist_default = {
   }
 };
 
-// src/antigravity/fixtures/fetchAvailableModels.json
+// src/gateway/antigravity/fixtures/fixtures/fetchAvailableModels.json
 var fetchAvailableModels_default = {
   models: {
     "gpt-oss-120b-medium": {
@@ -7660,7 +7610,7 @@ var fetchAvailableModels_default = {
   }
 };
 
-// src/antigravity/cloud-code-gateway.ts
+// src/gateway/antigravity/cloud-code-gateway.ts
 var HELPER_ROUTE_POLICIES = /* @__PURE__ */ new Map([
   ["gemini-2.5-flash", "launch-or-active"],
   ["gemini-2.5-flash-lite", "launch"],
@@ -8329,7 +8279,7 @@ async function handleUnaryRequest(res, route, providerOptions, parsed, _log, opt
   respondJson(res, 200, { response, traceId: "relay-trace", metadata: {} });
 }
 
-// src/antigravity/launch-routes.ts
+// src/gateway/antigravity/launch-routes.ts
 async function resolveAntigravityLaunchRoutes(opts) {
   const maxRoutes = opts.maxRoutes ?? MAX_MODEL_CATALOG;
   const apiKey = await resolveLocalProviderApiKey(opts.provider);
@@ -8367,7 +8317,7 @@ async function resolveAntigravityLaunchRoutes(opts) {
   };
 }
 
-// src/antigravity/launch-cli.ts
+// src/gateway/antigravity/launch-cli.ts
 import { execFileSync as execFileSync2, execSync as execSync2, spawn as spawn3 } from "child_process";
 import { existsSync as existsSync5 } from "fs";
 import { homedir as homedir5 } from "os";
@@ -8454,13 +8404,13 @@ function launchAntigravityCli(env, extraArgs) {
   });
 }
 
-// src/antigravity/launch-ide.ts
+// src/gateway/antigravity/launch-ide.ts
 import { execFileSync as execFileSync3, execSync as execSync3, spawn as spawn4 } from "child_process";
 import { existsSync as existsSync6 } from "fs";
 import { homedir as homedir6 } from "os";
 import { join as join6 } from "path";
 
-// src/antigravity/ide-profile.ts
+// src/gateway/antigravity/ide-profile.ts
 import fs from "fs";
 import path from "path";
 function readIdeSettings(settingsPath) {
@@ -8491,7 +8441,7 @@ function prepareIdeProfile(profileDir, gatewayUrl) {
   return profileDir;
 }
 
-// src/antigravity/launch-ide.ts
+// src/gateway/antigravity/launch-ide.ts
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -8705,7 +8655,7 @@ function launchAntigravityIde(env, profileDir, gatewayUrl, extraArgs) {
   });
 }
 
-// src/antigravity.ts
+// src/agents/gemini/antigravity.ts
 import { homedir as homedir7 } from "os";
 import { join as join7 } from "path";
 var SHUTDOWN_DRAIN_MS = 500;
@@ -9080,11 +9030,11 @@ async function runAntigravityIdeCommand(childArgs, trace = false, boot) {
   );
 }
 
-// src/codex-app.ts
+// src/agents/codex/app.ts
 import pc10 from "picocolors";
 import * as p12 from "@clack/prompts";
 
-// src/codex/app-provider-routes.ts
+// src/agents/codex/app-provider-routes.ts
 function codexRouteToProxyRoute(provider, model, apiKey) {
   const route = resolveCodexRoute(provider, model, apiKey);
   return {
@@ -9169,7 +9119,7 @@ async function buildCodexAppProviderCatalogRoutes(provider, apiKey, selectedMode
   };
 }
 
-// src/codex/app-config.ts
+// src/agents/codex/app-config.ts
 import { existsSync as existsSync7, readFileSync as readFileSync3, rmSync as rmSync3, writeFileSync as writeFileSync3, mkdirSync as mkdirSync3 } from "fs";
 import { dirname as dirname2, join as join8 } from "path";
 import { parse, stringify } from "smol-toml";
@@ -9389,7 +9339,7 @@ function previewAppConfigToml(spec) {
   return text4;
 }
 
-// src/codex/app-session.ts
+// src/agents/codex/app-session.ts
 import {
   copyFileSync as copyFileSync2,
   existsSync as existsSync8,
@@ -9551,7 +9501,7 @@ function waitForShutdown2() {
   });
 }
 
-// src/codex-app.ts
+// src/agents/codex/app.ts
 function codexProxyRouteToCodexRoute(route, fallbackProviderId) {
   return {
     tier: "proxy",
@@ -10103,11 +10053,11 @@ async function runCodexAppCommand(args, opts = {}) {
   }
 }
 
-// src/claude-app.ts
+// src/agents/claude/desktop.ts
 import pc11 from "picocolors";
 import * as p13 from "@clack/prompts";
 
-// src/claude-desktop/app-config.ts
+// src/agents/claude/desktop-app.ts
 import { existsSync as existsSync9, readFileSync as readFileSync5, writeFileSync as writeFileSync4, mkdirSync as mkdirSync5 } from "fs";
 import { homedir as homedir8 } from "os";
 import { join as join10, dirname as dirname3 } from "path";
@@ -10164,7 +10114,7 @@ function writeAnygateIConfig(proxyPort) {
   return uuid;
 }
 
-// src/claude-desktop/app-session.ts
+// src/agents/claude/desktop-session.ts
 import { existsSync as existsSync10, readFileSync as readFileSync6, rmSync as rmSync5, writeFileSync as writeFileSync5, copyFileSync as copyFileSync3, unlinkSync as unlinkSync2 } from "fs";
 import { join as join11 } from "path";
 function getSessionLockPath2() {
@@ -10274,7 +10224,7 @@ function setupExitCleanup(uuid) {
   process.on("exit", () => cleanupSession(uuid));
 }
 
-// src/claude-app.ts
+// src/agents/claude/desktop.ts
 function claudeAppHelpText() {
   return `${pc11.bold("anygate claude-app")} \u2014 launch Claude Desktop app in 3P mode with your registry providers
 
@@ -10558,7 +10508,7 @@ ${pc11.bold("Claude Desktop 3P Mode Active")}`);
   }
 }
 
-// src/ai-doc.ts
+// src/agents/shared/ai-doc.ts
 import { existsSync as existsSync11, mkdirSync as mkdirSync6, readFileSync as readFileSync7, writeFileSync as writeFileSync6 } from "fs";
 import { homedir as homedir9 } from "os";
 import { join as join12 } from "path";
@@ -12374,7 +12324,7 @@ Error: ${parsed.error}
       console.log("Usage: anygate ui [--trace]\n\nOpen the settings UI in your browser.");
       return 0;
     }
-    const { runUiCommand } = await import("./ui-command-V4MRGKF3.js");
+    const { runUiCommand } = await import("./ui-command-KK4BCLRX.js");
     return runUiCommand({ trace: parsed.trace });
   }
   if (parsed.command === "models") {

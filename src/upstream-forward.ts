@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
 import type { ServerResponse } from 'node:http';
-import { sanitizeCredential } from './server/auth.js';
+import { sanitizeCredential } from './gateway/auth.ts';
 import { CLAUDE_CODE_USER_AGENT } from './oauth/claude-identity.js';
 import { UpstreamUnreachableError } from './core/errors.js';
 

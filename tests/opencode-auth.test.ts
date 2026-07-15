@@ -13,15 +13,15 @@ import {
   classifyOpencodeCredentialGap,
   listCredentialSkippedProviders,
 } from '../src/registry/import-build.js';
-import type { RawProvider } from '../src/providers.js';
+import type { RawProvider } from '../src/providers/provider-catalog.js';
 
-describe('resolveOpencodeAuthPath', () => {
+describe.skipIf(process.platform === 'win32')('resolveOpencodeAuthPath', () => {
   it('uses XDG_DATA_HOME on unix', () => {
     expect(resolveOpencodeAuthPath({ XDG_DATA_HOME: '/tmp/xdg' })).toBe('/tmp/xdg/opencode/auth.json');
   });
 });
 
-describe('readOpencodeAuthFile', () => {
+describe.skipIf(process.platform === 'win32')('readOpencodeAuthFile', () => {
   it('parses oauth entries', () => {
     const home = mkdtempSync(join(tmpdir(), 'relay-oauth-'));
     const dataHome = join(home, 'share');

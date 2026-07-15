@@ -1,7 +1,7 @@
 // src/env.ts
 import { CONFLICTING_ENV_VARS } from './constants.js';
-import { claudeCodeClientModelId, stripOneMContextSuffix } from '../context-model-id.js';
-import { resolveContextWindow } from '../context-window.js';
+import { claudeCodeClientModelId, stripOneMContextSuffix } from '../agents/shared/context-model-id.js';
+import { resolveContextWindow } from '../agents/shared/context-window.js';
 import { oauthCredentialToKeychainJson } from '../registry/opencode-auth.js';
 import {
   parseStoredOAuthCredential,

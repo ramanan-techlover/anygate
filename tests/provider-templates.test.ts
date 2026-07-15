@@ -6,7 +6,7 @@ import {
   listSupportedTemplates,
   listVisibleOAuthTemplates,
   PROVIDER_TEMPLATES,
-} from '../src/provider-templates.js';
+} from '../src/providers/provider-templates.js';
 import { fetchTemplateModels } from '../src/registry/fetch-template-models.js';
 
 describe('provider templates', () => {

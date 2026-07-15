@@ -18,11 +18,11 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { dirname, join } from 'node:path';
-import bundledPricing from '../data/pricing-cache.json';
-import { getAppHome } from '../paths.js';
+import bundledPricing from '../data/pricing-cache.json' with { type: 'json' };
+import { getAppHome } from '../core/paths.ts';
 import type { CachedModel } from './types.js';
 import { loadRegistry, saveRegistry } from './io.js';
-import { classifyFreeStatus, isFreeStatus } from '../free-models.js';
+import { classifyFreeStatus, isFreeStatus } from '../agents/shared/free-models.ts';
 
 export const PRICING_API_URL = 'https://ai-model-pricing.com/api/v1/pricing.json';
 const FETCH_TIMEOUT_MS = 15_000;

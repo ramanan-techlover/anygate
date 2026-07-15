@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { parseProvidersArgs, providerHubChoiceValue, providersHelpText, runProvidersAdd } from '../src/providers-command.js';
+import { parseProvidersArgs, providerHubChoiceValue, providersHelpText, runProvidersAdd } from '../src/providers/command.js';
 import {
   addZenRegistryStub,
   removeProviderFromRegistry,
@@ -11,7 +11,7 @@ import {
 import { emptyRegistry, loadRegistry, saveRegistry } from '../src/registry/io.js';
 import { zenRegistryStub } from '../src/registry/builtins.js';
 import { providerAuthHelpText } from '../src/registry/provider-auth.js';
-import { PROVIDER_TEMPLATES } from '../src/provider-templates.js';
+import { PROVIDER_TEMPLATES } from '../src/providers/provider-templates.js';
 import * as env from './../src/core/env.js';
 
 const selectMock = vi.hoisted(() => vi.fn());

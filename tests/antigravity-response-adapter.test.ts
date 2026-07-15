@@ -1,5 +1,5 @@
 ﻿import { describe, it, expect } from 'vitest';
-import { formatCloudCodeChunk, mapFinishReason, normalizeFunctionCallArgs, type CloudCodeChunkOptions } from '../src/antigravity/response-adapter.js';
+import { formatCloudCodeChunk, mapFinishReason, normalizeFunctionCallArgs, type CloudCodeChunkOptions } from '../src/gateway/antigravity/response-adapter.js';
 
 describe('antigravity response-adapter', () => {
   it('formats a text chunk into a Cloud Code SSE event', () => {

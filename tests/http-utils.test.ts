@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { EventEmitter } from 'node:events';
 import { gzipSync, zstdCompressSync } from 'node:zlib';
 import type { IncomingMessage } from 'node:http';
-import { readBody } from '../src/http-utils.js';
+import { readBody } from '../src/core/http-utils.js';
 
 function mockRequest(body: Buffer, headers: Record<string, string> = {}): IncomingMessage {
   const req = new EventEmitter() as unknown as IncomingMessage;

@@ -1,5 +1,5 @@
 ﻿import { describe, expect, it } from 'vitest';
-import { buildAnygateIConfig } from '../src/claude-desktop/app-config.js';
+import { buildAnygateIConfig } from '../src/agents/claude/desktop-app.js';
 
 describe('buildAnygateIConfig', () => {
   it('allows Cowork shell tools to reach external hosts', () => {

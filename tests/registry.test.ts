@@ -76,7 +76,7 @@ describe('registry io', () => {
     expect(loaded.providers[0]?.modelsCache?.models[0]?.npm).toBe('@ai-sdk/groq');
   });
 
-  it('writes providers.json with restrictive permissions', () => {
+  it.skipIf(process.platform === 'win32')('writes providers.json with restrictive permissions', () => {
     saveRegistry(emptyRegistry());
     const path = join(home, 'providers.json');
     expect(existsSync(path)).toBe(true);

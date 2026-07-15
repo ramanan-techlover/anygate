@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import http from 'node:http';
-import { startProxy, type ProxyHandle } from '../src/proxy.js';
+import { startProxy, type ProxyHandle } from '../src/gateway/anthropic-proxy.js';
 
 describe('proxy GET /v1/models with models/ prefix ids', () => {
   let handle: ProxyHandle | null = null;

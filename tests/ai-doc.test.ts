@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   generateAiDoc,
   parseSkillVersion,
-} from '../src/ai-doc.js';
+} from '../src/agents/shared/ai-doc.js';
 import { parseArgs } from '../src/cli.js';
 import { VERSION } from './../src/core/constants.js';
 

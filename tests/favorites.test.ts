@@ -1,7 +1,7 @@
 // tests/favorites.test.ts
 import { describe, it, expect } from 'vitest';
 import { MAX_MODEL_CATALOG } from './../src/core/constants.js';
-import { addFavorite, removeFavorite, isFavorite } from '../src/favorites.js';
+import { addFavorite, removeFavorite, isFavorite } from '../src/agents/claude/favorites.js';
 import type { FavoriteModel } from './../src/core/types.js';
 
 const fav = (providerId: string, modelId: string): FavoriteModel => ({ providerId, modelId });

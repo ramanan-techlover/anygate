@@ -1,5 +1,5 @@
 ﻿import { describe, it, expect } from 'vitest';
-import { buildCodexChildEnv, ensureCodexSandboxArgs, selectCodexBinary, stripCodexInheritedEnv } from '../src/codex/launch.js';
+import { buildCodexChildEnv, ensureCodexSandboxArgs, selectCodexBinary, stripCodexInheritedEnv } from '../src/agents/codex/launch.js';
 
 describe('stripCodexInheritedEnv', () => {
   it('removes CI flags that trigger Codex read-only sandbox', () => {

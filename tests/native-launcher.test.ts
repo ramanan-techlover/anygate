@@ -5,7 +5,7 @@ import {
   getRelayLaunchCommand,
   getTerminalLaunchCommand,
   getSupportedApps,
-} from '../src/native-launcher.js';
+} from '../src/agents/shared/native-launcher.js';
 
 function macCommandScriptPath(cmd: string): string | null {
   const match = cmd.match(/open -a Terminal (.+)$/);

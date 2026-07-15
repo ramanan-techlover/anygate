@@ -8,7 +8,7 @@ import {
   launchAntigravityIde,
   waitForAntigravityAppQuit,
   waitForAntigravityIdeQuit,
-} from '../src/antigravity/launch-ide.js';
+} from '../src/gateway/antigravity/launch-ide.js';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import os from 'node:os';
@@ -58,7 +58,7 @@ describe('antigravity launch-ide', () => {
     fs.rmSync(tempProfile, { recursive: true, force: true });
   });
 
-  it('detects a running managed standalone Antigravity app process by profile directory', () => {
+  it.skipIf(process.platform !== 'darwin')('detects a running managed standalone Antigravity app process by profile directory', () => {
     const tempProfile = fs.mkdtempSync(path.join(os.tmpdir(), 'anygate-antigravity-test-'));
     expect(isAntigravityAppRunning(tempProfile, () => {
       return `123 /Applications/Antigravity.app/Contents/MacOS/Antigravity --user-data-dir=${tempProfile}`;
@@ -70,7 +70,7 @@ describe('antigravity launch-ide', () => {
     fs.rmSync(tempProfile, { recursive: true, force: true });
   });
 
-  it('waits until the managed standalone Antigravity app exits', async () => {
+  it.skipIf(process.platform !== 'darwin')('waits until the managed standalone Antigravity app exits', async () => {
     const tempProfile = fs.mkdtempSync(path.join(os.tmpdir(), 'anygate-antigravity-test-'));
     let processListCalls = 0;
 
@@ -143,7 +143,7 @@ describe('antigravity launch-ide', () => {
     fs.rmSync(tempProfile, { recursive: true, force: true });
   });
 
-  it('detects a running managed Antigravity IDE process by profile directory', () => {
+  it.skipIf(process.platform !== 'darwin')('detects a running managed Antigravity IDE process by profile directory', () => {
     const tempProfile = fs.mkdtempSync(path.join(os.tmpdir(), 'anygate-ide-test-'));
     expect(isAntigravityIdeRunning(tempProfile, () => {
       return `123 /Applications/Antigravity IDE.app/Contents/MacOS/Electron --user-data-dir=${tempProfile}`;
@@ -155,7 +155,7 @@ describe('antigravity launch-ide', () => {
     fs.rmSync(tempProfile, { recursive: true, force: true });
   });
 
-  it('waits until the managed Antigravity process exits', async () => {
+  it.skipIf(process.platform !== 'darwin')('waits until the managed Antigravity process exits', async () => {
     const tempProfile = fs.mkdtempSync(path.join(os.tmpdir(), 'anygate-ide-test-'));
     let processListCalls = 0;
 

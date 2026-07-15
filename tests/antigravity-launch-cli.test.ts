@@ -3,7 +3,7 @@ import {
   findAntigravityCliBinary,
   launchAntigravityCli,
   readAntigravityCliVersion,
-} from '../src/antigravity/launch-cli.js';
+} from '../src/gateway/antigravity/launch-cli.js';
 import { execFileSync, spawn } from 'node:child_process';
 
 vi.mock('node:child_process', () => {

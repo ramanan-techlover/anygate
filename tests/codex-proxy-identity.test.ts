@@ -1,18 +1,18 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createLanguageModel } from '../src/provider-factory.js';
-import { generateResponsesResponse } from '../src/codex-responses-adapter.js';
-import { startCodexProxy, type CodexProxyHandle } from '../src/codex-proxy.js';
+import { createLanguageModel } from '../src/gateway/provider-factory.js';
+import { generateResponsesResponse } from '../src/agents/codex/responses-adapter.js';
+import { startCodexProxy, type CodexProxyHandle } from '../src/agents/codex/proxy.js';
 
-vi.mock('../src/provider-factory.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/provider-factory.js')>();
+vi.mock('../src/gateway/provider-factory.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/gateway/provider-factory.js')>();
   return {
     ...actual,
     createLanguageModel: vi.fn().mockResolvedValue({}),
   };
 });
 
-vi.mock('../src/codex-responses-adapter.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/codex-responses-adapter.js')>();
+vi.mock('../src/agents/codex/responses-adapter.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/agents/codex/responses-adapter.js')>();
   return {
     ...actual,
     generateResponsesResponse: vi.fn().mockResolvedValue({

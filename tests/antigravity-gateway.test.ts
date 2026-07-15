@@ -1,8 +1,8 @@
 ﻿import { describe, it, expect, afterEach, vi } from 'vitest';
 import { generateText, streamText } from 'ai';
-import { createLanguageModel } from '../src/provider-factory.js';
-import { startCloudCodeGateway, type CloudCodeGatewayHandle } from '../src/antigravity/cloud-code-gateway.js';
-import type { AntigravityRoute } from '../src/antigravity/types.js';
+import { createLanguageModel } from '../src/gateway/provider-factory.js';
+import { startCloudCodeGateway, type CloudCodeGatewayHandle } from '../src/gateway/antigravity/cloud-code-gateway.js';
+import type { AntigravityRoute } from '../src/gateway/antigravity/types.js';
 
 vi.mock('ai', () => {
   return {
@@ -24,7 +24,7 @@ vi.mock('ai', () => {
   };
 });
 
-vi.mock('../src/provider-factory.js', () => {
+vi.mock('../src/gateway/provider-factory.js', () => {
   return {
     createLanguageModel: vi.fn().mockResolvedValue({}),
     deepMergeProviderOptions: vi.fn((a, b) => {
@@ -528,7 +528,8 @@ describe('cloud-code-gateway', () => {
     });
 
     const streamCall = vi.mocked(streamText).mock.calls.at(-1)![0] as any;
-    expect(streamCall.system).toContain('x-anthropic-billing-header: cc_version=2.1.195.0; cc_entrypoint=cli;');
+    const entrypoint = process.env.CLAUDE_CODE_ENTRYPOINT ?? 'cli';
+    expect(streamCall.system).toContain(`x-anthropic-billing-header: cc_version=2.1.195.0; cc_entrypoint=${entrypoint};`);
     expect(streamCall.system).toContain('You are helpful.');
     expect(streamCall.providerOptions?.anthropic?.metadata?.userId).toContain(`"device_id":"${cliUserID}"`);
     expect(streamCall.providerOptions?.anthropic?.metadata?.userId).toContain(`"account_uuid":"${accountUUID}"`);

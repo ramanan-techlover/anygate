@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { anthropicToCloudCode } from '../src/antigravity/anthropic-to-cloudcode.js';
-import { collectCloudCodeToAnthropic } from '../src/antigravity/cloudcode-to-anthropic.js';
+import { anthropicToCloudCode } from '../src/gateway/antigravity/anthropic-to-cloudcode.js';
+import { collectCloudCodeToAnthropic } from '../src/gateway/antigravity/cloudcode-to-anthropic.js';
 
 describe('anthropicToCloudCode', () => {
   it('floors maxOutputTokens so Gemini hidden thoughts do not consume the full budget', () => {

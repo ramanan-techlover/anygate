@@ -18,7 +18,7 @@ vi.mock('@clack/prompts', () => ({
   confirm: vi.fn(async () => false),
   isCancel: vi.fn(() => false),
 }));
-vi.mock('../src/claude-desktop/app-session.js', () => ({
+vi.mock('../src/agents/claude/desktop-session.js', () => ({
   readSessionLock: vi.fn(),
   recoverSession: vi.fn(),
   hasStaleSession: vi.fn(() => false),
@@ -29,13 +29,13 @@ vi.mock('../src/claude-desktop/app-session.js', () => ({
   isConcurrentLiveSession: vi.fn(() => false),
   waitForShutdown: vi.fn(),
 }));
-vi.mock('../src/claude-desktop/app-launch.js', () => ({
+vi.mock('../src/agents/claude/desktop-launch.js', () => ({
   launchOrRestartClaudeApp: vi.fn(),
   claudeAppSupported: vi.fn(),
   isClaudeAppRunning: vi.fn(() => false),
   quitClaudeAppGracefully: vi.fn(),
 }));
-vi.mock('../src/claude-desktop/app-config.js', () => ({
+vi.mock('../src/agents/claude/desktop-app.js', () => ({
   writeAnygateIConfig: vi.fn(() => 'test-session-uuid'),
   getClaudeDesktopHome: vi.fn(() => '/tmp/anygate-test-claude-home'),
 }));
@@ -54,7 +54,7 @@ vi.mock('../src/core/env.js', () => ({
   resolveApiKey: vi.fn(() => 'resolved-token'),
   readFromCredentialStore: vi.fn(async () => null),
 }));
-vi.mock('../src/server/router.js', () => ({
+vi.mock('../src/gateway/router.js', () => ({
   startServer: vi.fn(async (options: any) => {
     state.startServerOptions = options;
     return {
@@ -66,8 +66,8 @@ vi.mock('../src/server/router.js', () => ({
   }),
 }));
 
-import { recoverSession } from '../src/claude-desktop/app-session.js';
-import { modelToServerModelInfo, runClaudeAppCommand } from '../src/claude-app.js';
+import { recoverSession } from '../src/agents/claude/desktop-session.js';
+import { modelToServerModelInfo, runClaudeAppCommand } from '../src/agents/claude/desktop.js';
 
 const helperModel: LocalProviderModel = {
   id: 'gpt-5.5',

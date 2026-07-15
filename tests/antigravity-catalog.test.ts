@@ -14,8 +14,8 @@ import {
   RELAY_CASCADE_PLAN_ANCHOR_ID,
   type AntigravityRoute,
   type CatalogFixture,
-} from '../src/antigravity/catalog.js';
-import catalogFixtureRaw from '../src/antigravity/fixtures/fetchAvailableModels.json' with { type: 'json' };
+} from '../src/gateway/antigravity/catalog.js';
+import catalogFixtureRaw from '../src/gateway/antigravity/fixtures/fixtures/fetchAvailableModels.json' with { type: 'json' };
 
 // Minimal fixture derived from the captured Antigravity IDE 2.1.1 catalog shape.
 const fixture: CatalogFixture = {

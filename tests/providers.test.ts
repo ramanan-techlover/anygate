@@ -1,6 +1,6 @@
 // tests/providers.test.ts
 import { describe, it, expect } from 'vitest';
-import { resolveEndpoint, normalizeProviders } from '../src/providers.js';
+import { resolveEndpoint, normalizeProviders } from '../src/providers/provider-catalog.js';
 
 // ---- resolveEndpoint ----
 

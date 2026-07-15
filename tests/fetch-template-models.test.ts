@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { fetchTemplateModels } from '../src/registry/fetch-template-models.js';
-import { PROVIDER_TEMPLATES } from '../src/provider-templates.js';
+import { PROVIDER_TEMPLATES } from '../src/providers/provider-templates.js';
 
 describe('fetchTemplateModels', () => {
   beforeEach(() => {

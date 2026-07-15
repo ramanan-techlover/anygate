@@ -1,4 +1,4 @@
-import { getSupportedApps, getSupportedApp, getRelayLaunchCommand, detectApp } from '../native-launcher.js';
+import { getSupportedApps, getSupportedApp, getRelayLaunchCommand, detectApp } from '../agents/shared/native-launcher.ts';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 
@@ -7,13 +7,13 @@ import { existsSync, statSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { loadPreferences, recordLaunchFolder, savePreferences, setAppPathOverride } from '../core/config.js';
-import { fetchProviderCatalog } from '../provider-catalog.js';
-import { favoriteProviderDisplayName } from '../favorite-provider-display.js';
+import { fetchProviderCatalog } from '../providers/provider-catalog.ts';
+import { favoriteProviderDisplayName } from '../agents/claude/favorite-provider-display.ts';
 import { saveProviderCredential, resolveProviderCredential } from '../core/env.js';
-import { readBody, sendJson } from '../http-utils.js';
+import { readBody, sendJson } from '../core/http-utils.ts';
 import { loadRegistry } from '../registry/io.js';
 import { refreshProviderModels, refreshAllProviderModels } from '../registry/refresh-models.js';
-import { listAddableTemplates, listVisibleOAuthTemplates, PROVIDER_TEMPLATES } from '../provider-templates.js';
+import { listAddableTemplates, listVisibleOAuthTemplates, PROVIDER_TEMPLATES, getTemplateById } from '../providers/provider-templates.ts';
 import { addProviderFromTemplate, type AddTemplateResult } from '../registry/add-template.js';
 import { addCustomEndpointProvider, type CustomEndpointKind } from '../registry/custom-endpoint.js';
 import { validateCustomEndpointUrl } from '../registry/url-security.js';
@@ -29,11 +29,11 @@ import {
   buildAntigravityAuthUrl,
   completeAntigravityExchange,
 } from '../oauth/antigravity-oauth.js';
-import { writeSecureLogLine } from '../trace-log.js';
-import { providerOptionsFromCatalog } from '../server/index.js';
+import { writeSecureLogLine } from '../agents/shared/trace-log.ts';
+import { providerOptionsFromCatalog } from '../gateway/server.ts';
 import { getServerStatus, startGatewayServer, stopGatewayServer, type ServerStartRequest } from './server-control.js';
-import { freeStatusLabel } from '../free-models.js';
-import { checkForUpdates } from '../update-check.js';
+import { freeStatusLabel } from '../agents/shared/free-models.ts';
+import { checkForUpdates } from '../agents/shared/update-check.ts';
 
 const MODELS_TIMEOUT_MS = 30_000;
 
@@ -207,7 +207,6 @@ async function handleGetModels(res: ServerResponse): Promise<void> {
       hasKey: Boolean(p.apiKey),
       freeAccess: !p.apiKey && (() => {
         const t = (registry.providers.find(rp => rp.id === p.id)?.templateId ?? p.id);
-        const { getTemplateById } = require('../provider-templates.js');
         return getTemplateById(t)?.anonymousFreeModels === true;
       })(),
       authType: p.authType ?? 'api',
@@ -344,7 +343,7 @@ async function handleAddProvider(req: IncomingMessage, res: ServerResponse): Pro
     if (!templateId || typeof templateId !== 'string') {
       sendJson(res, 400, { error: 'templateId required' }); return;
     }
-    const { listSupportedTemplates } = await import('../provider-templates.js');
+    const { listSupportedTemplates } = await import('../providers/provider-templates.js');
     const template = listSupportedTemplates().find(t => t.id === templateId);
     if (!template) {
       sendJson(res, 404, { error: `Template '${templateId}' not found` }); return;

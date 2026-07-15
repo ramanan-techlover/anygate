@@ -1,7 +1,7 @@
 import type { UserPreferences, FavoriteModel } from './types.js';
 import { dirname, join } from 'node:path';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { getAppHome, getConfigPath } from '../paths.js';
+import { getAppHome, getConfigPath } from './paths.js';
 
 function readJsonFile(path: string): UserPreferences | null {
   try {

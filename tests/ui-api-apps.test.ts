@@ -12,7 +12,7 @@ vi.mock('node:child_process', () => ({
 }));
 
 // Mock native-launcher to isolate endpoint testing
-vi.mock('../src/native-launcher.js', () => ({
+vi.mock('../src/agents/shared/native-launcher.js', () => ({
   getSupportedApps: () => [
     {
       id: 'claude',

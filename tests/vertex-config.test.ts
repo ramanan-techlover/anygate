@@ -12,7 +12,7 @@ import {
   resolveVertexLocation,
   resolveVertexProject,
   vertexModelsToServerModels,
-} from '../src/server/vertex-config.js';
+} from '../src/gateway/vertex.js';
 import { VERTEX_ANTHROPIC_NPM } from './../src/core/constants.js';
 
 describe('vertex-config', () => {

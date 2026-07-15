@@ -5,7 +5,7 @@ import {
   buildAgyLaunchArgs,
   formatAgyCapacityWarning,
   resolveAntigravityBootModel,
-} from '../src/antigravity.js';
+} from '../src/agents/gemini/antigravity.js';
 import { buildAntigravityChildEnv } from './../src/core/env.js';
 import type { LocalProvider } from './../src/core/types.js';
 

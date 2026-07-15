@@ -7,7 +7,7 @@ import {
   checkForUpdates,
   formatUpdateNotification,
   isNewerVersion,
-} from '../src/update-check.js';
+} from '../src/agents/shared/update-check.js';
 
 describe('version comparison', () => {
   it('compares stable and prerelease semantic versions', () => {

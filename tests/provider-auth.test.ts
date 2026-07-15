@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-vi.mock('../src/opencode-serve.js', () => ({
+vi.mock('../src/providers/opencode-serve.js', () => ({
   findOpencodeBinary: vi.fn(() => '/usr/local/bin/opencode'),
   fetchRawOpencodeProviders: vi.fn(async () => [{
     id: 'gitlab',
@@ -22,7 +22,7 @@ vi.mock('../src/registry/auth-broker.js', () => ({
     expires: Date.now() + 3600_000,
   })),
 }));
-vi.mock('../src/ui.js', () => ({
+vi.mock('../src/agents/shared/ui.js', () => ({
   printOAuthStepsPanel: vi.fn(),
   confirmSubscriptionOAuthRisk: vi.fn(async () => true),
 }));

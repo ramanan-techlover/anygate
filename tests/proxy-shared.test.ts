@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseDsmlToolCalls } from '../src/proxy-shared.js';
+import { parseDsmlToolCalls } from '../src/gateway/proxy-shared.js';
 
 describe('parseDsmlToolCalls', () => {
   it('parses a single invoke with a string parameter (clean fullwidth-pipe spec form)', () => {

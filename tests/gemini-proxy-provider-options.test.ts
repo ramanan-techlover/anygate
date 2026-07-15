@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { streamText } from 'ai';
-import { createLanguageModel } from '../src/provider-factory.js';
-import { startGeminiProxy } from '../src/gemini-proxy.js';
-import type { ProxyHandle, ProxyRoute } from '../src/proxy.js';
+import { createLanguageModel } from '../src/gateway/provider-factory.js';
+import { startGeminiProxy } from '../src/agents/gemini/proxy.js';
+import type { ProxyHandle, ProxyRoute } from '../src/gateway/anthropic-proxy.js';
 
 vi.mock('ai', () => ({
   streamText: vi.fn().mockImplementation(() => ({
@@ -16,8 +16,8 @@ vi.mock('ai', () => ({
   tool: vi.fn(def => def),
 }));
 
-vi.mock('../src/provider-factory.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../src/provider-factory.js')>();
+vi.mock('../src/gateway/provider-factory.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/gateway/provider-factory.js')>();
   return {
     ...actual,
     createLanguageModel: vi.fn().mockResolvedValue({}),

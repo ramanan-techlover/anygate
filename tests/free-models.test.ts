@@ -4,7 +4,7 @@ import {
   freeStatusLabel,
   isFreeStatus,
   isZeroCost,
-} from '../src/free-models.js';
+} from '../src/agents/shared/free-models.js';
 
 describe('free model classification', () => {
   it('treats explicit zero input and output pricing as verified free', () => {

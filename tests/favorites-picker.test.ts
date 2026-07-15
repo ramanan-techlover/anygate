@@ -4,7 +4,7 @@ import {
   filterGlobalFavoriteIndex,
   globalFavoritePickKey,
   globalFavoriteSelectOption,
-} from '../src/favorites-picker.js';
+} from '../src/agents/claude/favorites-picker.js';
 import type { LocalProvider } from './../src/core/types.js';
 
 const providers: LocalProvider[] = [

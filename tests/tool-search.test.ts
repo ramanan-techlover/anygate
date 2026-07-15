@@ -3,7 +3,7 @@ import {
   isToolSearchTool,
   extractReferencedToolNames,
   resolveUpstreamTools,
-} from '../src/tool-search.js';
+} from '../src/agents/shared/tool-search.js';
 
 const coreTools = [
   { name: 'Bash', description: 'Run bash', input_schema: { type: 'object', properties: {} } },

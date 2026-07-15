@@ -1,7 +1,7 @@
 // auth-broker.ts — delegate OAuth login to OpenCode CLI, copy tokens into anygate keychain
 
 import { spawn } from 'node:child_process';
-import { findOpencodeBinary } from '../opencode-serve.js';
+import { findOpencodeBinary } from '../providers/opencode-serve.ts';
 import {
   isOpencodeOAuth,
   readOpencodeAuthFile,

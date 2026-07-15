@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { resolveCodexRoute } from '../src/codex/routing.js';
+import { resolveCodexRoute } from '../src/agents/codex/routing.js';
 import type { LocalProvider, LocalProviderModel } from './../src/core/types.js';
 
 const mocks = vi.hoisted(() => ({
@@ -69,7 +69,7 @@ const mocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('../src/codex/session.js', () => ({
+vi.mock('../src/agents/codex/session.js', () => ({
   CODEX_PROFILE_NAME: 'anygate-launch',
   getCatalogPath: (providerId: string) => `/tmp/models-${providerId}.json`,
   getCodexProfilePath: () => '/tmp/anygate-launch.config.toml',
@@ -82,7 +82,7 @@ vi.mock('../src/codex/session.js', () => ({
   writeSessionLock: mocks.writeSessionLock,
 }));
 
-vi.mock('../src/cloud-code-backend.js', () => ({
+vi.mock('../src/agents/shared/cloud-code-backend.js', () => ({
   buildCloudCodeProxyRoute: mocks.buildCloudCodeProxyRoute,
   buildOAuthAnthropicProxyRoute: mocks.buildOAuthAnthropicProxyRoute,
   needsCloudCodeBackend: vi.fn((model: any, authType?: string) =>
@@ -97,7 +97,7 @@ vi.mock('../src/cloud-code-backend.js', () => ({
   }),
 }));
 
-vi.mock('../src/provider-catalog.js', () => ({
+vi.mock('../src/providers/provider-catalog.js', () => ({
   fetchProviderCatalog: mocks.fetchProviderCatalog,
   providersForPicker: mocks.providersForPicker,
   resolveLocalProviderApiKey: mocks.resolveLocalProviderApiKey,
@@ -108,18 +108,18 @@ vi.mock('../src/core/config.js', () => ({
   recordLaunchSelection: mocks.recordLaunchSelection,
 }));
 
-vi.mock('../src/codex/launch.js', () => ({
+vi.mock('../src/agents/codex/launch.js', () => ({
   findCodexBinary: vi.fn(() => '/usr/local/bin/codex'),
   buildCodexChildEnv: vi.fn(() => ({})),
   launchCodex: mocks.launchCodex,
 }));
 
-vi.mock('../src/codex-proxy.js', () => ({
+vi.mock('../src/agents/codex/proxy.js', () => ({
   startCodexProxy: mocks.startCodexProxy,
 }));
 
-vi.mock('../src/server/vertex-config.js', async importOriginal => {
-  const actual = await importOriginal<typeof import('../src/server/vertex-config.js')>();
+vi.mock('../src/gateway/vertex.js', async importOriginal => {
+  const actual = await importOriginal<typeof import('../src/gateway/vertex.js')>();
   return {
     ...actual,
     hasApplicationDefaultCredentials: vi.fn(() => true),
@@ -141,7 +141,7 @@ vi.mock('@clack/prompts', () => ({
   spinner: vi.fn(() => ({ start: vi.fn(), stop: vi.fn() })),
 }));
 
-import { runCodexCommand } from '../src/codex.js';
+import { runCodexCommand } from '../src/agents/codex/cli.js';
 
 const cloudCodeModel: LocalProviderModel = {
   id: 'gemini-3.5-flash-low',

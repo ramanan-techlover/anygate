@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { createGatewayModelCatalog, formatGatewayAnthropicModels } from '../src/server/models.js';
-import type { ServerModelInfo } from '../src/server/models.js';
-import { maskGatewayModelId, unmaskGatewayModelId } from '../src/server/vendor-mask.js';
+import { createGatewayModelCatalog, formatGatewayAnthropicModels } from '../src/gateway/models.js';
+import type { ServerModelInfo } from '../src/gateway/models.js';
+import { maskGatewayModelId, unmaskGatewayModelId } from '../src/gateway/vendor-mask.js';
 
 function model(partial: Partial<ServerModelInfo> & Pick<ServerModelInfo, 'id'>): ServerModelInfo {
   return {

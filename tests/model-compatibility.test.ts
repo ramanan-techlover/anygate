@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { mergeModels } from '../src/models.js';
+import { mergeModels } from '../src/agents/shared/model-compatibility.js';
 import { materializeRegistry } from '../src/registry/materialize.js';
 import {
   findBlacklistEntry,
   hideReason,
   shouldHideModel,
-} from '../src/model-compatibility.js';
+} from '../src/agents/shared/model-compatibility.js';
 import {
   findModelsDevModel,
   loadBundledModelsDevCache,
@@ -13,8 +13,8 @@ import {
   shouldHideByModelsDevCapabilities,
   stripModelsDevCacheMeta,
 } from '../src/registry/models-dev.js';
-import { isRoutableModel } from '../src/codex/routing.js';
-import { normalizeProviders } from '../src/providers.js';
+import { isRoutableModel } from '../src/agents/codex/routing.js';
+import { normalizeProviders } from '../src/providers/provider-catalog.js';
 import type { LocalProviderModel } from './../src/core/types.js';
 
 describe('shouldHideModel', () => {

@@ -7,7 +7,7 @@ import {
   translateToolChoice,
   translateRequest,
   writeAnthropicStream,
-} from '../src/sdk-adapter.js';
+} from '../src/gateway/sdk-adapter.js';
 
 describe('translateTools', () => {
   it('builds client-side tools (no execute) keyed by name', () => {
@@ -299,7 +299,7 @@ describe('generateAnthropicResponse', () => {
       jsonSchema: vi.fn((schema: unknown) => schema),
     }));
 
-    const { generateAnthropicResponse } = await import('../src/sdk-adapter.js');
+    const { generateAnthropicResponse } = await import('../src/gateway/sdk-adapter.js');
     const body = await generateAnthropicResponse({} as never, { messages: [] }, 'gemini-2.5-pro');
     const toolUse = (body.content as any[]).find(item => item.type === 'tool_use');
     expect(toolUse.id).toBe('call_1__ts__U0lH');
@@ -324,7 +324,7 @@ describe('generateAnthropicResponse', () => {
       jsonSchema: vi.fn((schema: unknown) => schema),
     }));
 
-    const { generateAnthropicResponse } = await import('../src/sdk-adapter.js');
+    const { generateAnthropicResponse } = await import('../src/gateway/sdk-adapter.js');
     const body = await generateAnthropicResponse({} as never, { messages: [] }, 'gpt-5.6-sol', { forceStream: true });
 
     expect(generateText).not.toHaveBeenCalled();

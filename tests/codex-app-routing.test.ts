@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
-import { startProxyCatalog } from '../src/proxy.js';
-import { buildCodexAppProviderCatalogRoutes } from '../src/codex/app-provider-routes.js';
-import { buildCodexProxyRoutesForProvider } from '../src/codex/routing.js';
+import { startProxyCatalog } from '../src/gateway/anthropic-proxy.js';
+import { buildCodexAppProviderCatalogRoutes } from '../src/agents/codex/app-provider-routes.js';
+import { buildCodexProxyRoutesForProvider } from '../src/agents/codex/routing.js';
 import type { LocalProvider } from './../src/core/types.js';
 
-vi.mock('../src/proxy.js', async importOriginal => {
-  const actual = await importOriginal<typeof import('../src/proxy.js')>();
+vi.mock('../src/gateway/anthropic-proxy.js', async importOriginal => {
+  const actual = await importOriginal<typeof import('../src/gateway/anthropic-proxy.js')>();
   return {
     ...actual,
     startProxyCatalog: vi.fn().mockResolvedValue({

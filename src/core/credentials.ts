@@ -8,7 +8,7 @@
 // guarantees every launcher uses identical credential resolution.
 
 import { resolveProviderCredential } from './env.js';
-import { getTemplateById } from '../provider-templates.js';
+import { getTemplateById } from '../providers/provider-templates.js';
 import { loadRegistry } from '../registry/io.js';
 import { oauthAuthRef } from '../registry/import-build.js';
 import type { LocalProvider } from './types.js';

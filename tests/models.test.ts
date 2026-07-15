@@ -4,7 +4,7 @@ import {
   deriveBrand,
   mergeModels,
   groupModels,
-} from '../src/models.js';
+} from '../src/agents/shared/model-compatibility.js';
 import { classifyModelFormat } from './../src/core/constants.js';
 import type { ModelInfo } from './../src/core/types.js';
 

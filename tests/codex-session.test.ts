@@ -20,7 +20,7 @@ import {
   writeOverlayFile,
   writeSessionLock,
   STALE_SESSION_MS,
-} from '../src/codex/session.js';
+} from '../src/agents/codex/session.js';
 
 let tempHome: string;
 let previousHome: string | undefined;

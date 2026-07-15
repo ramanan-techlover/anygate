@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { redactTraceLine, redactTraceLog } from '../src/trace-log.js';
+import { redactTraceLine, redactTraceLog } from '../src/agents/shared/trace-log.js';
 
 describe('trace log redaction', () => {
   it('redacts bearer tokens', () => {
