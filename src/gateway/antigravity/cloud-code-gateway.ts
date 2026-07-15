@@ -21,8 +21,8 @@ import {
   buildListModelConfigsResponse,
   buildListExperimentsResponse,
 } from './catalog.js';
-import loadCodeAssistFixture from './fixtures/fixtures/loadCodeAssist.json' with { type: 'json' };
-import catalogFixtureRaw from './fixtures/fixtures/fetchAvailableModels.json' with { type: 'json' };
+import loadCodeAssistFixture from './fixtures/loadCodeAssist.json' with { type: 'json' };
+import catalogFixtureRaw from './fixtures/fetchAvailableModels.json' with { type: 'json' };
 
 export interface CloudCodeGatewayHandle {
   port: number;

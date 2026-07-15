@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   buildRelayCatalogEntry,
   injectRelayModels,
@@ -15,7 +15,7 @@ import {
   type AntigravityRoute,
   type CatalogFixture,
 } from '../src/gateway/antigravity/catalog.js';
-import catalogFixtureRaw from '../src/gateway/antigravity/fixtures/fixtures/fetchAvailableModels.json' with { type: 'json' };
+import catalogFixtureRaw from '../src/gateway/antigravity/fixtures/fetchAvailableModels.json' with { type: 'json' };
 
 // Minimal fixture derived from the captured Antigravity IDE 2.1.1 catalog shape.
 const fixture: CatalogFixture = {

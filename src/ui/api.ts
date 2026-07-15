@@ -8,7 +8,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { loadPreferences, recordLaunchFolder, savePreferences, setAppPathOverride } from '../core/config.js';
 import { fetchProviderCatalog } from '../providers/provider-catalog.ts';
-import { favoriteProviderDisplayName } from '../agents/claude/favorite-provider-display.ts';
+import { favoriteProviderDisplayName } from '../agents/claude/favorites-provider-display.ts';
 import { saveProviderCredential, resolveProviderCredential } from '../core/env.js';
 import { readBody, sendJson } from '../core/http-utils.ts';
 import { loadRegistry } from '../registry/io.js';

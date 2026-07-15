@@ -32,7 +32,7 @@ import {
   buildGlobalFavoriteIndex,
   pickGlobalFavoriteModel,
 } from './agents/claude/favorites-picker.js';
-import { favoriteProviderDisplayName } from './agents/claude/favorite-provider-display.js';
+import { favoriteProviderDisplayName } from './agents/claude/favorites-provider-display.js';
 import { resolveFirstAvailableFavorite } from './agents/shared/favorites-resolver.js';
 import { runProvidersCommand, providersHelpText } from './providers/command.js';
 import { runCodexCommand, codexHelpText } from './agents/codex/cli.js';

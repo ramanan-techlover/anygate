@@ -12,7 +12,7 @@ import { startCloudCodeGateway, type CloudCodeGatewayHandle } from '../../../src
 import { evaluateAgySwitchCompatibility } from '../../../src/gateway/antigravity/slot-registry.js';
 import { resolveAntigravityLaunchRoutes } from '../../../src/gateway/antigravity/launch-routes.js';
 import { launchAntigravityCli, readAntigravityCliVersion } from '../../../src/gateway/antigravity/launch-cli.js';
-import catalogFixtureRaw from '../../../src/gateway/antigravity/fixtures/fixtures/fetchAvailableModels.json' with { type: 'json' };
+import catalogFixtureRaw from '../../../src/gateway/antigravity/fixtures/fetchAvailableModels.json' with { type: 'json' };
 import {
   forceQuitAntigravityApp,
   forceQuitAntigravityIde,
