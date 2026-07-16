@@ -21,4 +21,4 @@ The first official release of **anygate** — the rebranded, multi-provider gate
 This `0.5.0` release marks the project's relaunch under the **anygate** name. Prior `0.x` versions under the previous name are not carried forward.
 
 > Install: `npm i -g anygate`
-> Docs: see the [README](https://github.com/ramanan-techlover/anygate#readme)
+> Docs: see the [README](https://github.com/ramananbuilds/anygate#readme)

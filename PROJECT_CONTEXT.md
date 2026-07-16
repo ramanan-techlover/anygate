@@ -38,8 +38,8 @@ Backends you can wire up:
 | License | MIT |
 | Node | `>=18` |
 | Module system | ESM (`"type": "module"`) |
-| Maintainer | `ramanan-techlover` |
-| Repo | `https://github.com/ramanan-techlover/anygate` |
+| Maintainer | `ramananbuilds` |
+| Repo | `https://github.com/ramananbuilds/anygate` |
 
 > [!IMPORTANT]
 > This project was forked/renamed from a predecessor product. The current codebase contains **no user-facing references** to the old name/author. Internally, a few legacy code identifiers still carry the old name (e.g. `gatewayIntro`/`gatewayOutro` in [src/ui.ts](file:///e:/anygate/src/ui.ts), `GATEWAY_LAUNCH_FLAGS`/`parseGatewayLaunchFlag` in [src/cli.ts](file:///e:/anygate/src/cli.ts)). These are **internal only** and not surfaced to users. The `package.json` `description` field ("Gateway any model into any coding agent") still contains the old word "Gateway" and should be cleaned as backlog (see §11).

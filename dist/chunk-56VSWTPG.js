@@ -15,13 +15,16 @@ var package_default = {
     access: "public"
   },
   description: "Route any model into any coding agent \u2014 launch Claude Code, Codex, and more with multi-provider gateways",
-  author: "ramanan-techlover",
+  author: "ramananbuilds",
   license: "MIT",
   repository: {
     type: "git",
-    url: "git+https://github.com/ramanan-techlover/anygate.git"
+    url: "git+https://github.com/ramananbuilds/anygate.git"
   },
-  homepage: "https://github.com/ramanan-techlover/anygate#readme",
+  homepage: "https://github.com/ramananbuilds/anygate#readme",
+  bugs: {
+    url: "https://github.com/ramananbuilds/anygate/issues"
+  },
   keywords: [
     "claude",
     "claude-code",
@@ -10549,4 +10552,4 @@ export {
   quitClaudeAppGracefully,
   launchOrRestartClaudeApp
 };
-//# sourceMappingURL=chunk-6GVUN4JO.js.map
+//# sourceMappingURL=chunk-56VSWTPG.js.map

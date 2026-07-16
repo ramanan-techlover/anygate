@@ -5,13 +5,16 @@
     "access": "public"
   },
   "description": "Route any model into any coding agent — launch Claude Code, Codex, and more with multi-provider gateways",
-  "author": "ramanan-techlover",
+  "author": "ramananbuilds",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ramanan-techlover/anygate.git"
+    "url": "git+https://github.com/ramananbuilds/anygate.git"
   },
-  "homepage": "https://github.com/ramanan-techlover/anygate#readme",
+  "homepage": "https://github.com/ramananbuilds/anygate#readme",
+  "bugs": {
+    "url": "https://github.com/ramananbuilds/anygate/issues"
+  },
   "keywords": [
     "claude",
     "claude-code",
