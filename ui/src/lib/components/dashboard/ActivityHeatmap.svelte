@@ -47,7 +47,7 @@
   const levelColor = (lvl: number): string => {
     switch (lvl) {
       case 0:
-        return 'transparent';
+        return 'var(--bg)';
       case 1:
         return 'color-mix(in srgb, var(--accent) 22%, transparent)';
       case 2:
@@ -131,7 +131,6 @@
     width: 13px;
     height: 13px;
     border-radius: 3px;
-    border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
     transition: transform var(--dur-xs) var(--ease);
   }
   .cell:not(.empty) {
@@ -143,8 +142,8 @@
     border-color: var(--border-bright);
   }
   .cell.empty {
-    background: transparent;
-    border: 1px solid color-mix(in srgb, var(--border) 40%, transparent);
+    background: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
   }
   .legend {
     display: flex;
